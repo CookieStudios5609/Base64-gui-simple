@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter.ttk import *
 import base64
 import pyperclip
 
