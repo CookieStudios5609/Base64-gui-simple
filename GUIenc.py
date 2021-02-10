@@ -11,8 +11,6 @@ def decode():
             user_typed = encoded_input_box.get()
             base64_bytes = user_typed.encode('ascii')
             message_bytes = base64.b64encode(base64_bytes)
-            progress.grid(row=1, column=0, pady=0, sticky='e')
-            progress.start(interval='8')
             decoded["text"] = message_bytes.decode('ascii')
         except ValueError:
             print('oops')
@@ -30,46 +28,37 @@ def kill():
 
 # window
 window = tk.Tk()
-window.title("My Awesome And Totally Secret Super Secret Secret Message encoder!")
-window.resizable(width=False, height=True)
+window.title("B64 Encode")
+window.resizable(width=False, height=False)
+window.configure(bg='#2c2f33')
 
 # entry and frame
-entry_frame = tk.Frame(master=window)
-encoded_input_box = tk.Entry(master=entry_frame, width=50)
-encoded_input = tk.Label(master=entry_frame, text="Put your super secret text here!")
+entry_frame = tk.Frame(master=window, bg='#696969')
+encoded_input_box = tk.Entry(master=entry_frame, width=45, bg='#696969', fg="#d3d3d3")
+encoded_input = tk.Label(master=entry_frame, text="Message to Encode:", bg='#2c2f33', fg="#d3d3d3")
 
 # buttons
-decode_button = tk.Button(
-    master=window,
-    text="\N{BLACK DIAMOND}",
-    command=decode
-)
-copy_button = tk.Button(master=window, text='Copy to Clipboard', command=copy)
-exit_button = tk.Button(master=window, text='Exit', command=kill)
+decode_button = tk.Button(master=window, text="\N{White Right-Pointing Triangle}", bg='#99aab5', command=decode)
+copy_button = tk.Button(master=window, text='Copy \N{CLIPBOARD}', bg='#2c2f33', fg="#ffffff", command=copy)
+exit_button = tk.Button(master=window, text='\N{cross mark}', bg='#2c2f33', fg="red", command=kill)
 
 # key binds
 window.bind('<Escape>', lambda e: window.destroy())
 
 # decoded strings (lol this is a copy and paste from my decoder+GUI)
-decoded_title = tk.Label(master=window, text="Encoded Message:")
-decoded = tk.Label(master=window, text="")
+decoded_title = tk.Label(master=window, text="Encoded Message:", bg='#2c2f33', fg="#d3d3d3")
+decoded = tk.Label(master=window, text="", bg='#2c2f33', fg="#d3d3d3")
 
-# fake loading bar that doesn't work correctly
-progress = Progressbar(length=305, mode='indeterminate', orient='horizontal', phase=1)
-
-# separator next to loading bar because why not
-bar = Separator(orient='vertical')
 
 # .grid stuff for positioning
-entry_frame.grid(row=0, column=0, padx=0)
-decode_button.grid(row=0, column=2, pady=10, padx=10)
-decoded.grid(row=1, column=3, padx=15)
-decoded_title.grid(row=0, column=3, padx=15)
-encoded_input_box.grid(row=0, column=1, sticky="e")
+entry_frame.grid(row=0, column=0)
+encoded_input_box.grid(row=0, column=1, sticky="w")
 encoded_input.grid(row=0, column=0, sticky="w")
-bar.grid(row=1, column=1, padx=10, sticky='e')
-exit_button.grid(row=2, column=5)
-copy_button.grid(row=2, column=4)
+decode_button.grid(row=0, column=2, sticky='w')
+decoded.grid(row=2, column=0, sticky='nw')
+decoded_title.grid(row=1, column=0, sticky='w')
+exit_button.grid(row=2, column=4)
+copy_button.grid(row=2, column=3)
 
 # has to be here because tk docs said so
 window.mainloop()
